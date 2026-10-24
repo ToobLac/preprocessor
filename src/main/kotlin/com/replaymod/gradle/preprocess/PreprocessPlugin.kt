@@ -56,6 +56,11 @@ class PreprocessPlugin : Plugin<Project> {
             graph.findParent(projectNode)?.first?.let { add(it) }
             projectNode.links.forEach { add(it.first) }
         }
+        println("Configuring preprocess for project ${projectNode.project}")
+        println("Adjacent nodes:")
+        for (n in adjacentNodes) {
+            println("  - ${n.project} Obfuscated: ${n.isObfuscated}")
+        }
 
         if (project.isObfuscated && !projectNode.isObfuscated) {
             throw IllegalStateException("Project appears to be obfuscated but configured preprocess node has `mappings` set to `null`")
