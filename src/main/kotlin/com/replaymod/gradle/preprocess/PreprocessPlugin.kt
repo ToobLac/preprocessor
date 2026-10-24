@@ -52,14 +52,14 @@ class PreprocessPlugin : Plugin<Project> {
         val graph = rootExtension.getRootNode(coreProject) ?: throw IllegalStateException("Preprocess graph was not configured.")
         if (graph.findNode(coreProject) == null) throw IllegalStateException("Preprocess graph does not contain main project `$coreProject`.")
         val projectNode = graph.findNode(project.name) ?: throw IllegalStateException("Preprocess graph does not contain ${project.name}.")
-        val adjacentNodes = buildList {
+        println("Configuring preprocess for project ${projectNode.project}")
+        val adjacentNodes = buildSet {
             graph.findParent(projectNode)?.first?.let { add(it) }
             projectNode.links.forEach { add(it.first) }
         }
-        println("Configuring preprocess for project ${projectNode.project}")
         println("Adjacent nodes:")
         for (n in adjacentNodes) {
-            println("  - ${n.project} Obfuscated: ${n.isObfuscated}")
+            println(" - ${n.project} Obfuscated: ${n.isObfuscated}")
         }
 
         if (project.isObfuscated && !projectNode.isObfuscated) {
