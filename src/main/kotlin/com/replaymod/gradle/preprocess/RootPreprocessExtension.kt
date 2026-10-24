@@ -3,6 +3,7 @@ package com.replaymod.gradle.preprocess
 import org.gradle.api.model.ObjectFactory
 import org.gradle.kotlin.dsl.property
 import java.io.File
+import java.util.Stack
 import javax.inject.Inject
 
 open class RootPreprocessExtension @Inject constructor(
@@ -34,15 +35,16 @@ open class RootPreprocessExtension @Inject constructor(
         first = coreNode ?: first
         println("rootNode: " + first.project)
 
-        val visited = mutableSetOf<Node>()
+        val visited = Stack<Node>();
         fun Node.breadthFirstSearch(): ProjectGraphNode {
+            visited.push(this)
             val graphNode = ProjectGraphNode(project, mcVersion, mappings)
             links.forEach { (otherNode, extraMappings) ->
-                if (visited.add(otherNode)) {
+                if (!visited.contains(otherNode)) {
                     graphNode.links.add(Pair(otherNode.breadthFirstSearch(), extraMappings))
-                    visited.remove(otherNode)
                 }
             }
+            visited.pop()
             return graphNode
         }
         return first.breadthFirstSearch()
