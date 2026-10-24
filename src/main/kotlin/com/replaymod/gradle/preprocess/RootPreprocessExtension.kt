@@ -40,8 +40,8 @@ open class RootPreprocessExtension @Inject constructor(
             links.forEach { (otherNode, extraMappings) ->
                 if (visited.add(otherNode)) {
                     graphNode.links.add(Pair(otherNode.breadthFirstSearch(), extraMappings))
+                    visited.remove(otherNode)
                 }
-                visited.remove(otherNode)
             }
             return graphNode
         }
