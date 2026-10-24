@@ -36,12 +36,12 @@ open class RootPreprocessExtension @Inject constructor(
 
         val visited = mutableSetOf<Node>()
         fun Node.breadthFirstSearch(): ProjectGraphNode {
+            visited.add(this)
             val graphNode = ProjectGraphNode(project, mcVersion, mappings)
-            links.forEach { (otherNode, extraMappings) ->
-                if (visited.add(otherNode)) {
-                    graphNode.links.add(Pair(otherNode.breadthFirstSearch(), extraMappings))
-                }
+            links.filterKeys { !visited.contains(it) }.forEach { (otherNode, extraMappings) ->
+                graphNode.links.add(Pair(otherNode.breadthFirstSearch(), extraMappings))
             }
+            visited.remove(this)
             return graphNode
         }
         return first.breadthFirstSearch()
