@@ -38,13 +38,10 @@ open class RootPreprocessExtension @Inject constructor(
         fun Node.breadthFirstSearch(): ProjectGraphNode {
             val graphNode = ProjectGraphNode(project, mcVersion, mappings)
             links.forEach { (otherNode, extraMappings) ->
-                print("Linking ${otherNode.project} to $project...")
                 if (visited.add(otherNode)) {
                     graphNode.links.add(Pair(otherNode.breadthFirstSearch(), extraMappings))
-                    println(" done")
-                } else {
-                    println(" skipping because already added")
                 }
+                visited.remove(otherNode)
             }
             return graphNode
         }
