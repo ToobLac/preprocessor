@@ -23,7 +23,7 @@ plugins {
 group = "com.github.replaymod"
 version = "SNAPSHOT"
 
-val kotestVersion: String by project.extra
+val kotestVersion = project.extra["kotestVersion"] as String
 
 gradlePlugin {
     plugins {
@@ -59,9 +59,8 @@ repositories {
 dependencies {
     implementation(gradleApi())
     implementation(localGroovy())
-    implementation("com.github.Fallen-Breath:remap:62d6423acf") {
-        exclude("org.jetbrains.kotlin", "kotlin-compiler-embeddable")
-    }
+    // Note: Version needs to be kept in-sync with the one in `PreprocessPlugin.setupRemapClasspath`
+    compileOnly("com.github.ToobLac:remap:8352794bdc")
     implementation("net.fabricmc:mapping-io:0.6.1")
     implementation("org.ow2.asm:asm:9.9.1")
 
