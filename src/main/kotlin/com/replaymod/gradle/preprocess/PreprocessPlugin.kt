@@ -348,7 +348,7 @@ class PreprocessPlugin : Plugin<Project> {
         val remapDependencyScope = project.configurations.dependencyScope("preprocess-remap")
         project.dependencies {
             // Note: Version needs to be kept in-sync with the one in `build.gradle.kts`
-            remapDependencyScope("com.github.replaymod:remap:5755a0125325d9630aded76e539ad6d303742392")
+            remapDependencyScope("com.github.ToobLac:remap:8352794bdc")
         }
         return project.configurations.resolvable("preprocess-remap-resolver") {
             extendsFrom(remapDependencyScope.get())

@@ -43,11 +43,6 @@ java.toolchain.languageVersion.set(JavaLanguageVersion.of(17))
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
 
 repositories {
     mavenLocal()
